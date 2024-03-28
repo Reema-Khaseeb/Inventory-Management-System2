@@ -65,6 +65,27 @@ public class UserService : IUserService
         }
     }
 
+    public async Task<User> GetUserByIdAsync(int userId)
+    {
+        try
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                _logger.LogWarning("User with ID {UserId} not found.", userId);
+                throw new NotFoundException($"User with ID {userId} not found.");
+            }
+
+            return user;
+        }
+
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting user by ID.");
+            throw;
+        }
+    }
+
     public async Task<bool> IsUsernameUniqueAsync(string username)
     {
         return await _userRepository.IsUsernameUniqueAsync(username);
