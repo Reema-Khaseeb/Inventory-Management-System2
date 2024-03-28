@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventoryManagementSystem.Db.Configurations;
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfigurations : IEntityTypeConfiguration<User>
 {
     // Configure entity properties, relationships
     public void Configure(EntityTypeBuilder<User> builder)
