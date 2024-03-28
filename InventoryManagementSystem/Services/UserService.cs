@@ -3,6 +3,7 @@ using InventoryManagementSystem.Db.Repositories.Interfaces;
 using InventoryManagementSystem.Services.Interfaces;
 using InventoryManagementSystem.Dtos.User;
 using InventoryManagementSystem.Common.Exceptions.UserExceptions;
+using InventoryManagementSystem.Common.Exceptions;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 
@@ -82,6 +83,28 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting user by ID.");
+            throw;
+        }
+    }
+
+    public async Task<User> GetUserByUsernameAsync(string username)
+    {
+        try
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            if (user == null)
+            {
+                _logger.LogWarning("User '{Username}' not found.", username);
+                throw new NotFoundException($"User '{username}' not found.");
+            }
+
+            return user;
+        }
+
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting user by Username.");
             throw;
         }
     }
