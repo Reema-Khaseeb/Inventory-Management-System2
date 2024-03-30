@@ -8,6 +8,7 @@ using InventoryManagementSystem.Db.Repositories;
 using InventoryManagementSystem.MappingProfiles;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using FluentValidation.AspNetCore;
 
 namespace InventoryManagementSystem.Api;
 public class Startup
@@ -89,7 +90,9 @@ public class Startup
 
     private void ConfigureControllers(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers()
+        .AddFluentValidation(fv => fv
+        .RegisterValidatorsFromAssemblyContaining<Startup>());
     }
 
     private void ConfigureScopedServices(IServiceCollection services)
