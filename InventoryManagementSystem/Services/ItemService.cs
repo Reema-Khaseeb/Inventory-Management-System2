@@ -140,6 +140,31 @@ public class ItemService : IItemService
     }
 
     /// <summary>
+    /// Deletes an item by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the item to delete.</param>
+    /// <exception cref="KeyNotFoundException">Thrown if the item to delete is not found.</exception>
+    public async Task DeleteItemAsync(int id)
+    {
+        try
+        {
+            var item = await GetItemAsync(id);
+            await _itemRepository.DeleteItemAsync(item);
+            _logger.LogInformation($"Item with ID: {id} has been successfully deleted.");
+        }
+        catch (KeyNotFoundException knfEx)
+        {
+            _logger.LogError(knfEx, $"Failed to delete item because it was not found: {knfEx.Message}");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"An unexpected error occurred while attempting to delete the item with ID: {id}");
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Updates the status of an item based on its quantity.
     /// </summary>
     /// <param name="item">The item whose status needs to be updated.</param>
