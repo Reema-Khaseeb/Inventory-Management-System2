@@ -9,6 +9,7 @@ public static class DataSeeder
     {
 
         SeedUsers(modelBuilder);
+        SeedCategories(modelBuilder);
         SeedItems(modelBuilder);
     }
 
@@ -48,6 +49,16 @@ public static class DataSeeder
         new Item { Id = 35, Name = "Vacuum Cleaner", Description = "Bagless cyclone vacuum cleaner", Quantity = 150, Status = ItemStatus.InStock, CategoryId = 4, UserId = 11 },
         new Item { Id = 36, Name = "Self-Help Book", Description = "Guide to personal growth and productivity", Quantity = 160, Status = ItemStatus.InStock, CategoryId = 3, UserId = 12 },
         new Item { Id = 37, Name = "Webcam", Description = "High-definition USB webcam", Quantity = 170, Status = ItemStatus.InStock, CategoryId = 1, UserId = 13 }
+        );
+    }
+
+    private static void SeedCategories(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Category>().HasData(
+            new Category { Id = 1, Name = "Electronics" },
+            new Category { Id = 2, Name = "Clothing" },
+            new Category { Id = 3, Name = "Books" },
+            new Category { Id = 4, Name = "Kitchen Appliances" }
         );
     }
 
