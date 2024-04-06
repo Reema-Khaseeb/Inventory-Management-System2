@@ -101,6 +101,45 @@ public class ItemService : IItemService
     }
 
     /// <summary>
+    /// Updates an item based on provided data.
+    /// </summary>
+    /// <param name="id">The ID of the item to update.</param>
+    /// <param name="itemDto">The data transfer object containing update data.</param>
+    /// <exception cref="KeyNotFoundException">Thrown if the item, specified user, or category does not exist.</exception>
+    public async Task UpdateItemAsync(int id, ItemDto itemDto)
+    {
+        try
+        {
+            var existingItem = await GetItemAsync(id);
+
+            // Validate foreign keys
+            if (itemDto.UserId.HasValue
+                && !await _userRepository.IsUserExistAsync(itemDto.UserId.Value))
+            {
+                var errorMsg = $"User with ID {itemDto.UserId} not found.";
+                _logger.LogError(errorMsg);
+                throw new KeyNotFoundException(errorMsg);
+            }
+
+            _mapper.Map(itemDto, existingItem);
+            UpdateItemStatus(existingItem);
+
+            await _itemRepository.UpdateItemAsync(existingItem);
+            _logger.LogInformation($"Item with ID: {id} has been successfully updated.");
+        }
+        catch (KeyNotFoundException knfEx)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                $"An unexpected error occurred while attempting to update the item with ID: {id}.");
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Updates the status of an item based on its quantity.
     /// </summary>
     /// <param name="item">The item whose status needs to be updated.</param>

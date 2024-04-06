@@ -8,6 +8,7 @@ namespace InventoryManagementSystem.Services.Interfaces
         Task<Item> CreateItemAsync(Item newItem);
         Task<Item> GetItemAsync(int id);
         Task<IEnumerable<Item>> GetItemsAsync();
+        Task UpdateItemAsync(int id, ItemDto itemDto);
         void UpdateItemStatus(Item item);
     }
 }
