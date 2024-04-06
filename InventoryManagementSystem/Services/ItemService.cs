@@ -62,6 +62,34 @@ public class ItemService : IItemService
     }
 
     /// <summary>
+    /// Retrieves a single item by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the item to retrieve.</param>
+    /// <returns>The requested item if found.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown if the item is not found.</exception>
+    public async Task<Item> GetItemAsync(int id)
+    {
+        try
+        {
+            var item = await _itemRepository.GetItemByIdAsync(id);
+
+            if (item == null)
+            {
+                _logger.LogWarning($"Item with ID {id} not found.");
+                throw new KeyNotFoundException($"Item with ID {id} not found.");
+            }
+
+            _logger.LogInformation($"Item with ID {id} successfully retrieved.");
+            return item;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"An error occurred while attempting to retrieve item with ID {id}.");
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Updates the status of an item based on its quantity.
     /// </summary>
     /// <param name="item">The item whose status needs to be updated.</param>
