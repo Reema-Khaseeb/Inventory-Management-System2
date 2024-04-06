@@ -90,6 +90,17 @@ public class ItemService : IItemService
     }
 
     /// <summary>
+    /// Retrieves all items.
+    /// </summary>
+    /// <returns>A collection of all items.</returns>
+    public async Task<IEnumerable<Item>> GetItemsAsync()
+    {
+        var items = await _itemRepository.GetItemsAsync();
+        _logger.LogInformation("All Items successfully retrieved.");
+        return items;
+    }
+
+    /// <summary>
     /// Updates the status of an item based on its quantity.
     /// </summary>
     /// <param name="item">The item whose status needs to be updated.</param>

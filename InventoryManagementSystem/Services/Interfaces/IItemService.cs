@@ -7,6 +7,7 @@ namespace InventoryManagementSystem.Services.Interfaces
     {
         Task<Item> CreateItemAsync(Item newItem);
         Task<Item> GetItemAsync(int id);
+        Task<IEnumerable<Item>> GetItemsAsync();
         void UpdateItemStatus(Item item);
     }
 }
