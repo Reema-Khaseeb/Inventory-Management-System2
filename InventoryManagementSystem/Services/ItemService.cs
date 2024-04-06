@@ -60,4 +60,18 @@ public class ItemService : IItemService
             throw;
         }
     }
+
+    /// <summary>
+    /// Updates the status of an item based on its quantity.
+    /// </summary>
+    /// <param name="item">The item whose status needs to be updated.</param>
+    public void UpdateItemStatus(Item item)
+    {
+        item.Status = item.Quantity switch
+        {
+            <= 0 => ItemStatus.OutOfStock,
+            <= 20 => ItemStatus.LowStock,
+            _ => ItemStatus.InStock
+        };
+    }
 }
