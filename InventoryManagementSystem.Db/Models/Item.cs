@@ -10,6 +10,8 @@ public class Item
     public ItemStatus Status { get; set; }
     // Foreign key properties
     public int UserId { get; set; }
+    public int CategoryId { get; set; }
     // Navigation properties
     public User User { get; set; }
+    public Category Category { get; set; }
 }
