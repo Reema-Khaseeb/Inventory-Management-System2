@@ -7,7 +7,6 @@ public static class DataSeeder
 {
     public static void SeedData(ModelBuilder modelBuilder)
     {
-
         SeedUsers(modelBuilder);
         SeedCategories(modelBuilder);
         SeedItems(modelBuilder);

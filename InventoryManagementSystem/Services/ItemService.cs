@@ -11,18 +11,21 @@ public class ItemService : IItemService
 {
     private readonly IItemRepository _itemRepository;
     private readonly IUserRepository _userRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly ILogger<ItemService> _logger;
     private readonly IMapper _mapper;
 
     public ItemService(
         IItemRepository itemRepository,
         IUserRepository userRepository,
+        ICategoryRepository categoryRepository,
         ILogger<ItemService> logger,
         IMapper mapper
         )
     {
         _itemRepository = itemRepository;
         _userRepository = userRepository;
+        _categoryRepository = categoryRepository;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mapper = mapper;
     }
@@ -46,6 +49,13 @@ public class ItemService : IItemService
             {
                 _logger.LogError($"User with ID {newItem.UserId} not found.");
                 throw new KeyNotFoundException($"User with ID {newItem.UserId} not found.");
+            }
+
+            var categoryExists = await _categoryRepository.IsCategoryExistAsync(newItem.CategoryId);
+            if (!categoryExists)
+            {
+                _logger.LogError($"Category with ID {newItem.CategoryId} not found.");
+                throw new KeyNotFoundException($"Category with ID {newItem.CategoryId} not found.");
             }
 
             UpdateItemStatus(newItem);
@@ -117,6 +127,13 @@ public class ItemService : IItemService
                 && !await _userRepository.IsUserExistAsync(itemDto.UserId.Value))
             {
                 var errorMsg = $"User with ID {itemDto.UserId} not found.";
+                _logger.LogError(errorMsg);
+                throw new KeyNotFoundException(errorMsg);
+            }
+            if (itemDto.CategoryId.HasValue
+                && !await _categoryRepository.IsCategoryExistAsync(itemDto.CategoryId.Value))
+            {
+                var errorMsg = $"Category with ID {itemDto.CategoryId} not found.";
                 _logger.LogError(errorMsg);
                 throw new KeyNotFoundException(errorMsg);
             }
