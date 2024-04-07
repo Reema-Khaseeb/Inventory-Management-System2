@@ -1,5 +1,4 @@
 ﻿using InventoryManagementSystem.Db.Models;
-using InventoryManagementSystem.Db.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,9 +23,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         
         builder.Property(u => u.Email)
             .IsRequired();
-
-        //// Seed Data
-        builder.HasData(SeedData.SeedUsers());
 
         // Table Name in Database
         builder.ToTable("User");

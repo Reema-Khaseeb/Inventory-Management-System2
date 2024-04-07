@@ -11,5 +11,6 @@ namespace InventoryManagementSystem.Db.Repositories.Interfaces
         Task<IEnumerable<User>> GetUsersAsync();
         Task<bool> IsEmailUniqueAsync(string email);
         Task<bool> IsUsernameUniqueAsync(string username);
+        Task<bool> IsUserExistAsync(int userId);
     }
 }
