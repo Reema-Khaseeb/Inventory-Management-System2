@@ -6,6 +6,7 @@ namespace InventoryManagementSystem.Db;
 public class InventoryManagementSystemDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Item> Items { get; set; }
 
     public InventoryManagementSystemDbContext(
         DbContextOptions<InventoryManagementSystemDbContext> options)
@@ -17,6 +18,7 @@ public class InventoryManagementSystemDbContext : DbContext
     {
         // Configure relationships and constraints
         modelBuilder.ApplyConfiguration(new UserConfigurations());
+        modelBuilder.ApplyConfiguration(new ItemConfigurations());
 
         base.OnModelCreating(modelBuilder);
     }
