@@ -25,6 +25,10 @@ public class ItemConfigurations : IEntityTypeConfiguration<Item>
         builder.HasOne(i => i.User)
             .WithMany(u => u.Items)
             .HasForeignKey(i => i.UserId);
+
+        builder.HasOne(item => item.Category)
+            .WithMany(category => category.Items)
+            .HasForeignKey(item => item.CategoryId);
             
         // Table Name in Database
         builder.ToTable("Item");
