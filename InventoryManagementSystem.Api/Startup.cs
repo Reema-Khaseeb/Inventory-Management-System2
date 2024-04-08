@@ -102,6 +102,7 @@ public class Startup
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IItemSearchService, ItemSearchService>();
         services.AddScoped<IItemService, ItemService>();
     }
 

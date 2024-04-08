@@ -9,5 +9,6 @@ namespace InventoryManagementSystem.Db.Repositories.Interfaces
         Task<Item> GetItemByIdAsync(int itemId);
         Task<IEnumerable<Item>> GetItemsAsync();
         Task UpdateItemAsync(Item item);
+        IQueryable<Item> GetQueryableItems();
     }
 }
