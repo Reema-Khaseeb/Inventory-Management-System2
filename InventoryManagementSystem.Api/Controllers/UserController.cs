@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InventoryManagementSystem.Common.Enums;
 using InventoryManagementSystem.Dtos.Error;
 using InventoryManagementSystem.Dtos.User;
 using InventoryManagementSystem.Services.Interfaces;
@@ -24,6 +25,7 @@ namespace InventoryManagementSystem.Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserById(int userId)
         {

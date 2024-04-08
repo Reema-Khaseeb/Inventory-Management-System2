@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InventoryManagementSystem.Common.Enums;
 using InventoryManagementSystem.Common.Exceptions;
 using InventoryManagementSystem.Common.Exceptions.UserExceptions;
 using InventoryManagementSystem.Dtos.Error;
@@ -99,5 +100,41 @@ namespace InventoryManagementSystem.Api.Controllers
                 ));
             }
         }
+
+        /// <summary>
+        /// Register a new admin user.
+        /// </summary>
+        /// <param name="userRequest">User registration data.</param>
+        /// <returns>A response indicating the result of the user registration process.</returns>
+        [HttpPost("register-admin")]
+        [SwaggerResponse(StatusCodes.Status200OK, "User registered successfully.", typeof(UserResponse))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid request data", typeof(IEnumerable<string>))]
+        [SwaggerResponse(StatusCodes.Status409Conflict, "Username or email already exists", typeof(ErrorResponse))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Internal server error occurred", typeof(ErrorResponse))]
+        public async Task<IActionResult> RegisterAdmin([FromBody] UserRequest userRequest)
+        {
+            try
+            {
+                var userRequestWithRole = userRequest with { Role = UserRole.Admin };
+                var registeredUser = await _userService.RegisterUserAsync(userRequestWithRole);
+                return Ok(new { Message = "Admin user registered successfully.", User = registeredUser });
+            }
+            catch (DuplicateUsernameException ex)
+            {
+                return Conflict(new ErrorResponse("An error occurred", ex.Message));
+            }
+            catch (DuplicateEmailException ex)
+            {
+                return Conflict(new ErrorResponse("An error occurred", ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ErrorResponse(
+                    "An error occurred while registering the admin user.",
+                    ex.Message
+                ));
+            }
+        }
+
     }
 }
