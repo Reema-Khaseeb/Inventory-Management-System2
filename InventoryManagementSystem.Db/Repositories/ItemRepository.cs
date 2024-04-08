@@ -41,4 +41,9 @@ public class ItemRepository : IItemRepository
     {
         return await _dbContext.Items.ToListAsync();
     }
+
+    public IQueryable<Item> GetQueryableItems()
+    {
+        return _dbContext.Items;
+    }
 }
