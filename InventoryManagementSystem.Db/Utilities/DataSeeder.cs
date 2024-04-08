@@ -74,8 +74,33 @@ public static class DataSeeder
                 Email = $"user{i}@example.com"
             });
         }
+        
+        users.AddRange(SeedAdminUsers());
 
         modelBuilder.Entity<User>().HasData(users);
+    }
+
+    private static List<User> SeedAdminUsers()
+    {
+        return new List<User>
+            {
+                new User
+                {
+                    UserId = 100,
+                    Username = "admin1",
+                    Password = HashPassword("adminpassword1"),
+                    Role = UserRole.Admin,
+                    Email = "admin1@example.com"
+                },
+                new User
+                {
+                    UserId = 200,
+                    Username = "admin2",
+                    Password = HashPassword("adminpassword2"),
+                    Role = UserRole.Admin,
+                    Email = "admin2@example.com"
+                }
+            };
     }
 
     private static string HashPassword(string password)
