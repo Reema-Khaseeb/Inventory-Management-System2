@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InventoryManagementSystem.Db\InventoryManagementSystem.Db.csproj" />
     <ProjectReference Include="..\InventoryManagementSystem\InventoryManagementSystem.csproj" />
   </ItemGroup>
