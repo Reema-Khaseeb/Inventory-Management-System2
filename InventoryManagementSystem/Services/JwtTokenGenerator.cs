@@ -54,7 +54,10 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return new ClaimsIdentity(new[]
         {
         new Claim(ClaimTypes.Name, user.Username),
-        new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // token unique identifier; preventing token replay attacks
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // token unique identifier; preventing token replay attacks
+        new Claim(ClaimTypes.Role, user.Role.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
         });
     }
 
