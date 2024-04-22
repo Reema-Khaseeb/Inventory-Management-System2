@@ -1,4 +1,5 @@
-﻿using InventoryManagementSystem.Common.Exceptions.UserExceptions;
+﻿using InventoryManagementSystem.Common.Exceptions;
+using InventoryManagementSystem.Common.Exceptions.UserExceptions;
 using InventoryManagementSystem.Db.Models;
 using InventoryManagementSystem.Dtos.Login;
 using InventoryManagementSystem.Services.Interfaces;
@@ -28,6 +29,12 @@ public class AuthenticationService : IAuthenticationService
     public async Task<string> LoginAsync(LoginRequest loginRequest)
     {
         var user = await _userService.GetUserByUsernameAsync(loginRequest.Username);
+        if (user == null)
+        {
+            _logger.LogWarning("User '{Username}' not found.", loginRequest.Username);
+            throw new NotFoundException($"User '{loginRequest.Username}' not found.");
+        }
+
         VerifyUserPassword(loginRequest, user);
         return _tokenGenerator.GenerateToken(user);
     }
