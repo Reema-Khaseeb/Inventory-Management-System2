@@ -101,6 +101,7 @@ public class Startup
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IItemService, ItemService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IItemSearchService, ItemSearchService>();
     }
@@ -108,6 +109,7 @@ public class Startup
     private void ConfigureRepositories(IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
     }
 
