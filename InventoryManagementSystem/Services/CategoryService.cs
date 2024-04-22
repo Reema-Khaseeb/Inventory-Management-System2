@@ -9,12 +9,12 @@ namespace InventoryManagementSystem.Services;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
-    private readonly ILogger<ItemService> _logger;
+    private readonly ILogger<CategoryService> _logger;
     private readonly IMapper _mapper;
 
     public CategoryService(
         ICategoryRepository categoryRepository,
-        ILogger<ItemService> logger,
+        ILogger<CategoryService> logger,
         IMapper mapper
         )
     {
@@ -89,9 +89,12 @@ public class CategoryService : ICategoryService
     /// </summary>
     /// <param name="id">The ID of the category to update.</param>
     /// <param name="categoryDto">The data transfer object containing update data.</param>
-    /// <exception cref="KeyNotFoundException">Thrown if the item does not exist.</exception>
+    /// <exception cref="KeyNotFoundException">Thrown if no category exist for the given id.</exception>
+    /// <exception cref="ArgumentNullException">Thrown if the argument categoryDto is null.</exception>
     public async Task UpdateCategoryAsync(int id, CategoryDto categoryDto)
     {
+        ArgumentNullException.ThrowIfNull(categoryDto, nameof(categoryDto));
+
         try
         {
             var existingCategory = await GetCategoryAsync(id);
